@@ -2,19 +2,25 @@
 
 $(document).ready(function () {
 
-	$("#prod").slider({ id: "prodSlider", min: 0, max: 1000, value: 0, tooltip: 'always' })
-	$("#prodSlider").css( { width: innerWidth * 0.7 } );
+	$("#prodInput").slider({ id: "prodSlider", min: 0, max: 1000, value: 0, tooltip: 'always' })
+	$("#priceInput").slider({ id: "priceSlider", min: 0, max: 1000, value: 0, tooltip: 'always' })
 
-	$("#price").slider({ id: "priceSlider", min: 0, max: 1000, value: 0, tooltip: 'always' })
-
-	$("#prod").on("slide", function (slide_evnt) {
-		$("#prodValue").text(slide_evnt.value);
-	});
-
-	$("#prrod").on("slide", function (evnt) {
-		console.log(evnt.value);
-		console.log(evnt);
-	});
-
+	$("#prodInput").on("slide", on_prod_slide);
+	$("#priceInput").on("slide", on_price_slide);
+    addEventListener("resize", on_resize, false);
+    on_resize();
 });
 
+
+function on_resize () {
+	$("#prodSlider").css( { width: innerWidth * 0.6 } );
+	$("#priceSlider").css( { width: innerWidth * 0.6 } );
+}
+
+function on_prod_slide (evnt) {
+    //$("#prodValue").text(evnt.value);
+}
+
+function on_price_slide (evnt) {
+    //$("#priceValue").text(evnt.value);
+}
