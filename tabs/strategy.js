@@ -9,7 +9,7 @@ $(document).ready(function () {
 	$("#prodInput").on("slide", on_prod_slide);
 	$("#priceInput").on("slide", on_price_slide);
 	$("#promoInput").on("slide", on_promo_slide);
-    //addEventListener("resize", on_resize, false);
+    addEventListener("resize", on_resize, false);
     on_resize();
 });
 
