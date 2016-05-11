@@ -3,3 +3,8 @@ html, body {
     height: 100%;
     background: #fff;
 }
+
+.slider-selection {
+    background: #ccc;
+}
+

@@ -11,31 +11,78 @@
 </head>
 <body>
 <nav class="navbar">
-	<ul class="nav nav-tabs nav-justified">
-		<li role="presentation" class="active"><a href="#">Strategy</a></li>
-		<li role="presentation"><a href="./board.html">Board</a></li>
-		<li role="presentation"><a href="./performances.html">Performances</a></li>
-	</ul>
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active"><a href="#">Strategy</a></li>
+        <li role="presentation"><a href="./board.html">Board</a></li>
+        <li role="presentation"><a href="./performances.html">Performances</a></li>
+    </ul>
 </nav>
+<br>
 <div class="container">
-	<form>
-		<br>
-		<div class="form-group">
-			<strong>Product Quality</strong>
-			<div class="pull-right">
-				<input id="prodInput" class="" type="text"/>
-			</div>
-		</div>
-		<br>
-		<div class="form-group">
-			<strong>Unit Price</strong>
-			<div class="pull-right">
-				<input id="priceInput" class="" type="text"/>
-			</div>
-		</div>
-		<br>
-		<button id="strategySubmitBt" type="submit" class="btn btn-primary btn-block">Submit</button>
-	</form>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <strong>Product Quality</strong>
+        </div>
+        <div class="col-md-9">
+            <input id="prodInput" class="" type="text"/>
+        </div>
+    </div>
+    <br>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <strong>Unit Price</strong>
+        </div>
+        <div class="col-md-9">
+            <input id="priceInput" class="" type="text"/>
+        </div>
+    </div>
+    <br>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <strong>Promotion</strong>
+        </div>
+        <div class="col-md-9">
+            <input id="promoInput" class="" type="text"/>
+        </div>
+    </div>
+    <br>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <strong>Place</strong>
+        </div>
+        <div class="col-md-6">
+            <button id="mapBt" class="btn btn-info btn-block">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                Map
+            </button>
+        </div>
+        <div class="col-md-2">
+            68763
+        </div>
+    </div>
+    <br>
+
+    <hr>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <strong>Finances</strong>
+        </div>
+        <div class="col-md-6 text-center">
+            4654657 - 465465 =
+        </div>
+        <div class="col-md-2">
+            56539
+        </div>
+    </div>
+    <br>
+
+    <br>
+    <button id="strategySubmitBt" class="btn btn-primary btn-block btn-lg">Submit</button>
+
 </div>
 
 <!--SCRIPTS-->
