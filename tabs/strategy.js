@@ -19,6 +19,11 @@ function init () {
     window.total_cost = 0;
     window.next_fin_val = 0;
 
+    window.oldTime = 0;
+    storage.data.current_round = storage.data.current_round || 0;
+    storage.data.time_left = storage.data.time_left || 0;
+    storage.data.can_submit = storage.data.can_submit || false;
+
 	$("#prodInput").slider({ id: "prodSlider", min: 1, max: game_data.maximunAmounts.qualityBudget, value: storage.data.prod_val, tooltip: 'always' })
 	$("#priceInput").slider({ id: "priceSlider", min: 1, max: game_data.maximunAmounts.productPrice, value: storage.data.price_val, tooltip: 'always' })
 	$("#promoInput").slider({ id: "promoSlider", min: 1, max: game_data.maximunAmounts.marketingBudget, value: storage.data.promo_val, tooltip: 'always' })
@@ -32,6 +37,40 @@ function init () {
 
     on_resize();
     update_values();
+    time_pass(0);
+   	time_check();
+}
+
+function time_pass (time) {
+	var delta = (time - oldTime) / 1000;
+	oldTime = time;
+	storage.data.time_left -= delta;
+	requestAnimationFrame(time_pass);
+}
+
+function time_check () {
+	db_access("timeLeft", "GET", '', time_return);
+	window.setTimeout(time_check, 5000);
+}
+
+function time_return (res) {
+	res = JSON.parse(res);
+
+	if(res.statusCode == 200) {
+		storage.data.time_left = res.message.timeLeft;
+		if(storage.data.current_round != res.message.round) {
+			storage.data.current_round = res.message.round;
+			toggle_submit_lock(false);
+		}
+	}
+	else {
+		toggle_submit_lock(true);
+	}
+}
+
+function toggle_submit_lock (bool) {
+	strategySubmitBt.disabled = bool;
+	storage.data.can_submit = !bool;
 }
 
 function on_resize () {
@@ -56,22 +95,23 @@ function on_slide (var_name, evnt) {
 }
 
 function submit_decision () {
-	//place is tmp
+	if(!storage.data.can_submit) {
+		return;
+	}
+
+	toggle_submit_lock(true);
 	var decisions = { 
 		"price": storage.data.price_val,
 		"qualityBudget": storage.data.prod_val,
 		"marketingBudget": storage.data.promo_val,
-		"place" : [
-			{
-				"mapDistrictIndex": 0,
-				"stallQuantity": 2
-			},
-			{
-				"mapDistrictIndex": 1,
-				"stallQuantity": 2
-			}
-		]
+		"place" : []
 	}
+
+	for(var i=0; i<3; i++) {
+		var index = i+1
+		decisions.place.push({"mapDistrictIndex": i,"stallQuantity": storage.data["dt" + index + "_val"]});
+	}
+	
 	db_access("teamDecisions", "POST", "token=" + storage.data.token + "&decisions=" + JSON.stringify(decisions), submit_return)
 }
 
@@ -80,9 +120,7 @@ function submit_return (res) {
 
 	if(res.statusCode != 200) {
 		alert(res.message);
-	}
-	else {
-		//TODO: Block the decisions until next round
+		toggle_submit_lock(false);
 	}
 }
 
