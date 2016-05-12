@@ -3,7 +3,7 @@
 function db_access (id, method, param, callback) { //param is a string of type application/x-www-form-urlencoded
 
 	var url = config.api_url + id + ".php";
-	if(method = "GET") {
+	if(method == "GET") {
 		url += "?" + param;
 		param = null;
 	}

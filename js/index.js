@@ -21,6 +21,7 @@ function login_return (res) {
     }
     else {
         storage.data.token = res.message;
+        storage.save();
         window.location.href = "tabs/strategy.html";
     }
 }
