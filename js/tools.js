@@ -32,7 +32,23 @@ function does_circles_collides (a, b) {
 }
 
 function is_point_left_of_line_AB (p, A, B) {
-	return (B.x - A.x) * (p.y - A.y) - (B.y - A.y) * (p.x - A.x) > 0;
+	return (B.x - A.x) * (A.y - p.y) - (A.y - B.y) * (p.x - A.x) > 0;
+}
+
+function is_point_inside_convex_shape (p, vx) {
+    for (var i = 0; i < vx.length; ++i) {
+        if (is_point_left_of_line_AB(p, vx[i], (i+1 < vx.length ? vx[i+1] : vx[0])))
+            return false;
+    }
+    return true;
+}
+
+function is_point_inside_shape (p, vx) {
+    for (var i = 0; i < vx.length; ++i) {
+        if (is_point_left_of_line_AB(p, vx[i], (i+1 < vx.length ? vx[i+1] : vx[0])))
+            return false;
+    }
+    return true;
 }
 
 function swap (array, i0, i1) {
