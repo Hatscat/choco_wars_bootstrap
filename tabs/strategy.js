@@ -11,7 +11,7 @@ function init () {
     storage.data.price_val = storage.data.price_val || 0;
     storage.data.promo_val = storage.data.promo_val || 0;
     storage.data.place_val = storage.data.place_val || 0;
-    storage.data.current_fin_val = storage.data.place_val || game_data.initialFinances;
+    storage.data.current_fin_val = storage.data.current_fin_val || game_data.initialFinances;
     window.total_cost = 0;
     window.next_fin_val = 0;
 
