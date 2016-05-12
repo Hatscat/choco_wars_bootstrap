@@ -1,18 +1,55 @@
 "use strict"
 
 $(document).ready(function () {
+    init_events();
+    get_game_data(get_team_stats);
+});
+
+function get_team_stats () {
+    db_access("teamStats", "GET", "token=" + storage.data.token, stats_return);
+}
+
+function stats_return (res) {
+    res = JSON.parse(res);
+
+    if(res.statusCode != 200) {
+        alert(res.message);
+    }
+
+    init(res.message.statistics);
+}
+
+function init (teamStats) {
 
     canvas.width = innerWidth * 0.8; 
     canvas.height = innerHeight * 0.7; 
 
+    var yearLabels = ["Start"], prod = [0], prom = [0], price = [0], place = [0], fric = [game_data.initialFinances];
+    for(var i = 0; i < teamStats.length; i++) {
+        yearLabels.push("N-" + (teamStats.length - i));
+        prod.push(teamStats[i].decisions.qualityBudget);
+        prom.push(teamStats[i].decisions.marketingBudget);
+        price.push(teamStats[i].decisions.price);
+        fric.push(teamStats[i].decisions.earnings);
+
+        var placeCost = 0;
+        for(var j = 0; j < teamStats[i].decisions.place.length; j++) {
+            placeCost += teamStats[i].decisions.place[j].stallQuantity * game_data.mapDistricts[teamStats[i].decisions.place[j].mapDistrictIndex].stallPrice;
+        }
+        place.push(placeCost);
+    }
+
+    storage.data.current_fin_val = fric[fric.length-1];
+    storage.data.place_val = place[place.length-1];
+
     var data = {
-        labels: ["N-7", "N-6", "N-5", "N-4", "N-3", "N-2", "N-1"],
+        labels: yearLabels,
         datasets: [
-            newDataSet("Production", "#00f", [650, 590, 800, 810, 506, 550, 400]),
-            newDataSet("Unit Price", "#f00", [5, 12, 13, 12, 14, 15, 9]),
-            newDataSet("Promotion", "#0f0", [4651, 3012, 1946, 2712, 5914, 3815, 6539]),
-            newDataSet("Place", "#f80", [765, 1665, 635, 462, 676, 666, 1357]),
-            newDataSet("Finances", "#82f", [52, 135, 433, 476, 546, 612, 257])
+            newDataSet("Production", "#00f", prod),
+            newDataSet("Unit Price", "#f00", price),
+            newDataSet("Promotion", "#0f0", prom),
+            newDataSet("Place", "#f80", place),
+            newDataSet("Finances", "#82f", fric)
         ]
     };
 
@@ -23,9 +60,7 @@ $(document).ready(function () {
         data: data,
         options: null
     });
-
-
-});
+}
 
 function newDataSet (label, color, data) {
 
