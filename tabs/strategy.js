@@ -113,11 +113,13 @@ function init_map () {
 
     // dt1
     for(var i = 0; i < 3; i++) {
-	    document.getElementById("dt" + (i+1) +"PriceDom").innerHTML = game_data.mapDistricts[i].stallPrice;
-	    document.getElementById("dt" + (i+1) +"PopDom").innerHTML = game_data.mapDistricts[i].totalPopulation;
-		$("#dt" + (i+1) +"Input").slider({ id: "#dt" + (i+1) + "Slider", min: 0, max: game_data.mapDistricts[i].maxStallNb, value: storage.data.prod_val, tooltip: 'always' })
-		$("#dt1Slider").css( { width: slider_w } );
-		$("#dt1Input").on("slide", on_slide.bind(null, "#dt" + (i+1) + "_val"));
+    	var index = i+1;
+	    document.getElementById("dt" + index +"PriceDom").innerHTML = game_data.mapDistricts[i].stallPrice;
+	    document.getElementById("dt" + index +"PopDom").innerHTML = game_data.mapDistricts[i].totalPopulation;
+
+		$("#dt" + index +"Input").slider({ id: "#dt" + index + "Slider", min: 0, max: game_data.mapDistricts[i].maxStallNb, value: storage.data["dt" + index + "_val"], tooltip: 'always' })
+		$("#dt" + index +"Slider").css( { width: slider_w } );
+		$("#dt" + index +"Input").on("slide", on_slide.bind(null, "dt" + index + "_val"));
 
 		var pop_average = [0,0,0];
 		for(var j = 0; j < game_data.mapDistricts[i].population.length; j++) {
@@ -131,7 +133,7 @@ function init_map () {
 		pop_average[1] = pop_average[1] / game_data.mapDistricts[i].population.length * 100;
 		pop_average[2] = pop_average[2] / game_data.mapDistricts[i].population.length * 100;
 
-	    new Chart($("#dt" + (i+1) +"Canvas"), {
+	    new Chart($("#dt" + index +"Canvas"), {
 	        type: 'pie',
 	        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, pop_average)
 	    });
