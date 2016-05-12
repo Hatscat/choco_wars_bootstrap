@@ -17,7 +17,7 @@
 	</div>
 	<h3 class="text-center text-muted">Pognon = Fric</h3>
 	<h3 class="text-center text-muted">Fric = Pognon</h3>
-	<form action="./tabs/strategy.html">
+	<div class="row">
 		<div class="form-group">
 			<label for="teamName">Team Name</label>
 			<input type="text" class="form-control" id="teamName" placeholder="Team Name">
@@ -27,25 +27,18 @@
 			<input type="password" class="form-control" id="teamPwd" placeholder="Team Password">
 		</div>
 		<br>
-		<button type="submit" class="btn btn-success btn-block">PLAY</button>
-	</form>
+		<button class="btn btn-success btn-block" onclick="login()">PLAY</button>
+	</div>
 </div>
 
 <!--SCRIPTS-->
 <script src="./libs/jquery.min.js"></script>
 <script src="./libs/bootstrap.min.js"></script>
 
-<script src="./js/tools.js"></script>
-<script src="./js/http_client.js"></script>
+<script src="./js/db_access.js"></script>
 <script src="./js/storage.js"></script>
+<script src="./js/config.js"></script>
+<script src="./js/index.js"></script>
 
-<script src="./js/main.js"></script>
-<!--<script src="./js/config.js"></script>
-<script src="./js/events.js"></script>
-<script src="./js/handlers.js"></script>
-<script src="./js/update.js"></script>
-<script src="./js/draw.js"></script>
-<script src="./js/main.js"></script>-->
-<!--/SCRIPTS-->
 </body>
 </html>

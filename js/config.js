@@ -10,7 +10,7 @@ window.config = {
         board: ["#ff7", "#ee6"],
         performances: ["#8f9", "#7e8"]
     },
-    api_url: "localhost",
+    api_url: "http://maximelore.com/choco_wars_back/php/",
     ALIGN_H: 1,
     ALIGN_V: 1 << 1,
     VAR_ID: {

@@ -35,3 +35,4 @@ storage.save = function (data) {
     return true;
 };
 
+storage.load();
