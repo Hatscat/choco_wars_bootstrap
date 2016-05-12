@@ -14,6 +14,7 @@ function stats_return (res) {
 
     if(res.statusCode != 200) {
         alert(res.message);
+        return;
     }
 
     init(res.message.statistics);

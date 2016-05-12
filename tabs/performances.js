@@ -1,21 +1,46 @@
 "use strict"
 
 $(document).ready(function () {
+    init_events();
+    get_game_data(get_teams_data);
+});
+
+function get_teams_data () {
+    db_access("results", "POST", '', function (res) {
+        res = JSON.parse(res);
+
+        if(res.statusCode != 200) {
+            alert(res.message);
+            return;
+        }
+
+        console.log(res.message);
+        init(res.message);
+    });
+}
+
+function init (teamsData) {
 
     turnoverCanvas.width = profitsCanvas.width = innerWidth * 0.4; 
     turnoverCanvas.height = profitsCanvas.height = innerHeight * 0.7; 
 
-    var team_names = ["AAA", "Millenium", "TMP", "RGBA", "Conspiracy"];
+    var team_names = [], turnovers = [], earnings = [];
+    for(var i = 0; i < teamsData.length; i++) {
+        team_names.push(teamsData[i].teamName);
+        turnovers.push(teamsData[i].results[teamsData[i].results.length-1].turnOver);
+        earnings.push(teamsData[i].results[teamsData[i].results.length-1].earnings);
+    }
+
     var team_colors = getColors(team_names);
 
     var turnoverData = {
         labels: team_names,
-        datasets: newDatasSet(team_colors, [3002, 540, 1400, 465, 427])
+        datasets: newDatasSet(team_colors, turnovers)
     };
 
     var profitsData = {
         labels: team_names,
-        datasets: newDatasSet(team_colors, [465, 2654, 1950, 1654, 735])
+        datasets: newDatasSet(team_colors, earnings)
     };
 
     Chart.defaults.global.defaultFontSize = 24;
@@ -31,8 +56,7 @@ $(document).ready(function () {
         data: profitsData,
         options: null
     });
-
-});
+}
 
 function newDatasSet (colors, data) {
 
