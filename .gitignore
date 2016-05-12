@@ -1,3 +1,4 @@
 *.swp
 /.ropeproject
 /build
+tabs/performances.js

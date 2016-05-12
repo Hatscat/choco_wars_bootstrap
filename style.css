@@ -9,3 +9,10 @@ html, body {
     background: #ccc;
 }
 
+.modal {
+    z-index: 3000;
+}
+.modal-content {
+    z-index: 3001;
+}
+
