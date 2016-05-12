@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choco Wars</title>
+<link rel="stylesheet" type="text/css" href="../libs/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+<nav class="navbar">
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation"><a href="./strategy.html">Strategy</a></li>
+        <li role="presentation"><a href="./board.html">Board</a></li>
+        <li role="presentation"  class="active"><a href="#">Performances</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="turnoverCanvas"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="profitsCanvas"></canvas>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <strong>Turnover</strong>
+        </div>
+        <div class="col-md-6 text-center">
+            <strong>Profits</strong>
+        </div>
+    </div>
+
+</div>
+
+<!--SCRIPTS-->
+<script src="../libs/jquery.min.js"></script>
+<script src="../libs/bootstrap.min.js"></script>
+<script src="../libs/Chart.min.js"></script>
+
+<script src="../js/tools.js"></script>
+<script src="../js/http_client.js"></script>
+<script src="../js/storage.js"></script>
+<script src="./performances.js"></script>
+<!--/SCRIPTS-->
+</body>
+</html>
