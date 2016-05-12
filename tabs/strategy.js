@@ -11,7 +11,11 @@ function init () {
     storage.data.price_val = storage.data.price_val || 0;
     storage.data.promo_val = storage.data.promo_val || 0;
     storage.data.place_val = storage.data.place_val || 0;
+    storage.data.dt1_val = storage.data.dt1_val || 0;
+    storage.data.dt2_val = storage.data.dt2_val || 0;
+    storage.data.dt3_val = storage.data.dt3_val || 0;
     storage.data.current_fin_val = storage.data.current_fin_val || game_data.initialFinances;
+
     window.total_cost = 0;
     window.next_fin_val = 0;
 
@@ -20,9 +24,9 @@ function init () {
 	$("#promoInput").slider({ id: "promoSlider", min: 1, max: game_data.maximunAmounts.marketingBudget, value: storage.data.promo_val, tooltip: 'always' })
 
 
-	$("#prodInput").on("slide", on_prod_slide);
-	$("#priceInput").on("slide", on_price_slide);
-	$("#promoInput").on("slide", on_promo_slide);
+	$("#prodInput").on("slide", on_slide.bind(null, "prod_val"));
+	$("#priceInput").on("slide", on_slide.bind(null, "price_val"));
+	$("#promoInput").on("slide", on_slide.bind(null, "promo_val"));
     addEventListener("resize", on_resize, false);
 	$("#mapBt").on("click", on_map_button_click);
 
@@ -38,6 +42,7 @@ function on_resize () {
 }
 
 function update_values () {
+    storage.data.place_val = storage.data.dt1_val * game_data.mapDistricts[0].stallPrice + storage.data.dt2_val * game_data.mapDistricts[1].stallPrice + storage.data.dt3_val * game_data.mapDistricts[2].stallPrice; // todo
     total_cost = storage.data.prod_val + storage.data.promo_val + storage.data.place_val;
     next_fin_val = storage.data.current_fin_val - total_cost;
     $("#placeValDom").text(storage.data.place_val);
@@ -45,18 +50,8 @@ function update_values () {
     $("#nextFinValDom").text(next_fin_val);
 }
 
-function on_prod_slide (evnt) {
-    storage.data.prod_val = +evnt.value;
-    update_values();
-}
-
-function on_price_slide (evnt) {
-    storage.data.price_val = +evnt.value;
-    update_values();
-}
-
-function on_promo_slide (evnt) {
-    storage.data.promo_val = +evnt.value;
+function on_slide (var_name, evnt) {
+    storage.data[var_name] = +evnt.value;
     update_values();
 }
 
@@ -101,7 +96,7 @@ function on_map_button_click () {
 function init_map () {
 
     mapCanvas.width = 898 - 30;
-    mapCanvas.height = window.innerHeight * 0.77;
+    mapCanvas.height = window.innerHeight * 0.78;
     window.mapCtx = mapCanvas.getContext("2d");
 
     mapCtx.fillRect(0, 0, mapCanvas.width, mapCanvas.height);
@@ -117,28 +112,31 @@ function init_map () {
     var slider_w = innerWidth * 0.33;
 
     // dt1
-	$("#dt1Input").slider({ id: "dt1Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
-	$("#dt1Slider").css( { width: slider_w } );
-    new Chart(dt1Canvas, {
-        type: 'pie',
-        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, [16, 48, 36])
-    });
+    for(var i = 0; i < 3; i++) {
+	    document.getElementById("dt" + (i+1) +"PriceDom").innerHTML = game_data.mapDistricts[i].stallPrice;
+	    document.getElementById("dt" + (i+1) +"PopDom").innerHTML = game_data.mapDistricts[i].totalPopulation;
+		$("#dt" + (i+1) +"Input").slider({ id: "#dt" + (i+1) + "Slider", min: 0, max: game_data.mapDistricts[i].maxStallNb, value: storage.data.prod_val, tooltip: 'always' })
+		$("#dt1Slider").css( { width: slider_w } );
+		$("#dt1Input").on("slide", on_slide.bind(null, "#dt" + (i+1) + "_val"));
 
-    // dt2
-	$("#dt2Input").slider({ id: "dt2Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
-	$("#dt2Slider").css( { width: slider_w } );
-    new Chart(dt2Canvas, {
-        type: 'pie',
-        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, [27, 29, 44])
-    });
+		var pop_average = [0,0,0];
+		for(var j = 0; j < game_data.mapDistricts[i].population.length; j++) {
+			var pop_data = game_data.customers[game_data.mapDistricts[i].population[j].typeName];
+			var total_coefs = pop_data.qualitySensitivity + pop_data.priceSensitivity + pop_data.marketingSensitivity
+			pop_average[0] +=  pop_data.qualitySensitivity / total_coefs;
+			pop_average[1] +=  pop_data.priceSensitivity / total_coefs;
+			pop_average[2] +=  pop_data.marketingSensitivity / total_coefs;
+		}
+		pop_average[0] = pop_average[0] / game_data.mapDistricts[i].population.length * 100;
+		pop_average[1] = pop_average[1] / game_data.mapDistricts[i].population.length * 100;
+		pop_average[2] = pop_average[2] / game_data.mapDistricts[i].population.length * 100;
 
-    // dt3
-	$("#dt3Input").slider({ id: "dt3Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
-	$("#dt3Slider").css( { width: slider_w } );
-    new Chart(dt3Canvas, {
-        type: 'pie',
-        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, [53, 9, 38])
-    });
+	    new Chart($("#dt" + (i+1) +"Canvas"), {
+	        type: 'pie',
+	        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, pop_average)
+	    });
+
+    }
 }
 
 function on_map_click (evnt) {
