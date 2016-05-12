@@ -23,8 +23,6 @@ $(document).ready(function () {
         data: data,
         options: null
     });
-
-
 });
 
 function newDataSet (label, color, data) {

@@ -55,13 +55,13 @@
             <strong>Place</strong>
         </div>
         <div class="col-md-6">
-            <button id="mapBt" class="btn btn-info btn-block">
+            <button id="mapBt" class="btn btn-info btn-block"
+                data-toggle="modal" data-target=".map-modal">
                 <span class="glyphicon glyphicon-map-marker"></span>
                 Map
             </button>
         </div>
         <div id="placeValDom" class="col-md-2">
-            68763
         </div>
     </div>
 
@@ -71,10 +71,8 @@
             <strong>Finances</strong>
         </div>
         <div id="finDetailsDom" class="col-md-6 text-center">
-            4654657 - 465465 =
         </div>
         <div id="nextFinValDom" class="col-md-2">
-            56539
         </div>
     </div>
 
@@ -83,11 +81,101 @@
 
 </div>
 
+<div class="modal fade map-modal" tabindex="-5" role="dialog"
+    aria-labelledby="map">
+    <div class="modal-dialog modal-lg">
+        <div id="mapModal" class="modal-content">
+
+            <a name="mapBM"></a>
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="text-center text-info modal-title">Tristram Town</h3>
+            </div>
+
+            <div class="modal-body">
+
+                <div>
+                    <canvas id="mapCanvas"></canvas>
+                </div>
+                <hr>
+
+                <div>
+                    <a name="dt1BM"></a>
+                    <h4 class="text-center text-danger">"Poor Souls" district</h4>
+
+                    <canvas id="dt1Canvas"></canvas>
+                    <h5 class="text-center"><em>People taste</em></h5>
+                    
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <strong>Stalls to rent</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <input id="dt1Input" class="" type="text"/>
+                        </div>
+                    </div>
+
+                    <div class="row text-center">
+                        <a class="btn btn-default btn-info" href="#mapBM">Back to Map</a>
+                    </div>
+                </div>
+                <hr>
+
+                <div>
+                    <a name="dt2BM"></a>
+                    <h4 class="text-center text-danger">"Boosted Hive" district</h4>
+
+                    <canvas id="dt2Canvas"></canvas>
+                    <h5 class="text-center"><em>People taste</em></h5>
+                    
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <strong>Stalls to rent</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <input id="dt2Input" class="" type="text"/>
+                        </div>
+                    </div>
+
+                    <div class="row text-center">
+                        <a class="btn btn-default btn-info" href="#mapBM">Back to Map</a>
+                    </div>
+                </div>
+                <hr>
+
+                <div>
+                    <a name="dt3BM"></a>
+                    <h4 class="text-center text-danger">"Golden Tower" district</h4>
+
+                    <canvas id="dt3Canvas"></canvas>
+                    <h5 class="text-center"><em>People taste</em></h5>
+                    
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <strong>Stalls to rent</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <input id="dt3Input" class="" type="text"/>
+                        </div>
+                    </div>
+
+                    <div class="row text-center">
+                        <a class="btn btn-default btn-info" href="#mapBM">Back to Map</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--SCRIPTS-->
 <script src="../libs/jquery.min.js"></script>
 <script src="../libs/bootstrap.min.js"></script>
 <script src="../libs/bootstrap-slider.min.js"></script>
 <script src="../libs/touchpolyfill.min.js"></script>
+<script src="../libs/Chart.min.js"></script>
 
 <script src="../js/tools.js"></script>
 <script src="../js/http_client.js"></script>

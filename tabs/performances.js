@@ -31,7 +31,6 @@ $(document).ready(function () {
         data: profitsData,
         options: null
     });
-
 });
 
 function newDatasSet (colors, data) {
