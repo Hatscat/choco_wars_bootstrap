@@ -29,9 +29,16 @@ function init () {
 	$("#promoInput").slider({ id: "promoSlider", min: 1, max: game_data.maximunAmounts.marketingBudget, value: storage.data.promo_val, tooltip: 'always' })
 
 
-	$("#prodInput").on("slide", on_slide.bind(null, "prod_val"));
-	$("#priceInput").on("slide", on_slide.bind(null, "price_val"));
-	$("#promoInput").on("slide", on_slide.bind(null, "promo_val"));
+	$("#prodSlider").on("slide", on_slide.bind(null, "prod_val"));
+	$("#prodSlider").on("tap", on_pointer_down.bind(null, "prod_val"));
+	$("#prodSlider").on("click", on_pointer_down.bind(null, "prod_val"));
+	$("#priceSlider").on("slide", on_slide.bind(null, "price_val"));
+	$("#priceSlider").on("tap", on_pointer_down.bind(null, "price_val"));
+	$("#priceSlider").on("click", on_pointer_down.bind(null, "price_val"));
+	$("#promoSlider").on("slide", on_slide.bind(null, "promo_val"));
+	$("#promoSlider").on("tap", on_pointer_down.bind(null, "promo_val"));
+	$("#promoSlider").on("click", on_pointer_down.bind(null, "promo_val"));
+
     addEventListener("resize", on_resize, false);
 	$("#mapBt").on("click", on_map_button_click);
 
@@ -128,13 +135,31 @@ function submit_return (res) {
 }
 
 
+function on_pointer_down (var_name, evnt) {
+    console.log("val", evnt, evnt.target.parentElement.innerText);
+    if (evnt.target.parentElement.innerText)
+        window[var_name] = +evnt.target.parentElement.innerText;
+    update_values();
+}
+
 function on_map_button_click () {
-    init_map();
+	db_access("districtsDistribution", "GET", '', get_district_resturn)
+}
+
+function get_district_resturn (res) {
+	res = JSON.parse(res);
+
+	if(res.statusCode != 200) {
+		alert(res.message);
+	}
+	else {
+		init_map(res.message);
+	}
 }
 
 // ---- map ---- //
 
-function init_map () {
+function init_map (districtsData) {
 
     mapCanvas.width = 898 - 30;
     mapCanvas.height = window.innerHeight * 0.78;
@@ -146,7 +171,6 @@ function init_map () {
     // districts
 
     Chart.defaults.global.defaultFontSize = 20;
-    var dt_people_tastes_labels = ["product quality", "price", "promotion"];
     window.dt_people_tastes_colors = ["#e64", "#4e6", "#64e"];
     var slider_w = innerWidth * 0.33;
 
@@ -159,6 +183,9 @@ function init_map () {
 		$("#dt" + index +"Input").slider({ id: "dt" + index + "Slider", min: 0, max: game_data.mapDistricts[i].maxStallNb, value: storage.data["dt" + index + "_val"], tooltip: 'always' })
 		$("#dt" + index +"Slider").css( { width: slider_w } );
 		$("#dt" + index +"Input").on("slide", on_slide.bind(null, "dt" + index + "_val"));
+		$("#dt" + index +"Input").on("tap", on_pointer_down.bind(null, "dt" + index + "_val"));
+		$("#dt" + index +"Input").on("click", on_pointer_down.bind(null, "dt" + index + "_val"));
+
 
 		var pop_average = [0,0,0];
 		for(var j = 0; j < game_data.mapDistricts[i].population.length; j++) {
@@ -173,9 +200,19 @@ function init_map () {
 		pop_average[1] = Math.round(pop_average[1] * 100);
 		pop_average[2] = Math.round(pop_average[2] * 100);
 
-	    new Chart($("#dt" + index +"Canvas"), {
+	    new Chart($("#dt" + index +"PopCanvas"), {
 	        type: 'doughnut',
-	        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, pop_average)
+	        data: new_chart_data(["product quality", "price", "promotion"], dt_people_tastes_colors, pop_average)
+	    });
+
+	    if(!districtsData.names[i].length) {
+	    	districtsData.names[i] = ["No One"];
+	    	districtsData.stallsNb[i] = [100];
+	    }
+	    
+	    new Chart($("#dt" + index +"StallsCanvas"), {
+	        type: 'pie',
+	        data: new_chart_data(districtsData.names[i], getColors(districtsData.names[i]), districtsData.stallsNb[i])
 	    });
 	}
 
@@ -210,7 +247,7 @@ function draw_map () {
     for (var d = 0; d < map_vx.length; ++d) {
         ctx.fillStyle = "#000";
         ctx.fillText(
-                ["Golden Tower", "Poor Souls", "Boosted Hive"][d],
+                ["Wall Street", "Bronx", "Manhattan"][d],
                 [0.45, 0.38, 0.7][d] * w,
                 [0.15, 0.66, 0.42][d] * h
         );
@@ -245,7 +282,6 @@ function on_map_click (evnt) {
             return;
         }
     }
-
 }
 
 function get_map_vertex (w, h) {
@@ -299,3 +335,4 @@ function new_chart_data (labels, colors, data) {
         }],
     };
 }
+

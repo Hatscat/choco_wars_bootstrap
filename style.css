@@ -16,3 +16,8 @@ html, body {
     z-index: 3001;
 }
 
+.number {
+    padding: 7px;
+    font-size: 1.2em;
+    font-weight: bold;
+}

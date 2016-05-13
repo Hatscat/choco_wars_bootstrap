@@ -72,13 +72,3 @@ function newDatasSet (colors, data) {
     }];
 }
 
-function getColors (strings) {
-
-    var colors = [];
-
-    for (var i = 0; i < strings.length; ++i) {
-        colors[i] = "#" + ((parseInt(strings[i], 36) ^ 0x888) & 0xeee).toString(16); 
-    }
-    return colors;
-}
-
