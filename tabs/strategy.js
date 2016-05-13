@@ -156,21 +156,22 @@ function init_map () {
 	    document.getElementById("dt" + index +"PriceDom").innerHTML = game_data.mapDistricts[i].stallPrice;
 	    document.getElementById("dt" + index +"PopDom").innerHTML = game_data.mapDistricts[i].totalPopulation;
 
-		$("#dt" + index +"Input").slider({ id: "#dt" + index + "Slider", min: 0, max: game_data.mapDistricts[i].maxStallNb, value: storage.data["dt" + index + "_val"], tooltip: 'always' })
+		$("#dt" + index +"Input").slider({ id: "dt" + index + "Slider", min: 0, max: game_data.mapDistricts[i].maxStallNb, value: storage.data["dt" + index + "_val"], tooltip: 'always' })
 		$("#dt" + index +"Slider").css( { width: slider_w } );
 		$("#dt" + index +"Input").on("slide", on_slide.bind(null, "dt" + index + "_val"));
 
 		var pop_average = [0,0,0];
 		for(var j = 0; j < game_data.mapDistricts[i].population.length; j++) {
 			var pop_data = game_data.customers[game_data.mapDistricts[i].population[j].typeName];
+			var pop_nb = game_data.mapDistricts[i].population[j].quantity;
 			var total_coefs = pop_data.qualitySensitivity + pop_data.priceSensitivity + pop_data.marketingSensitivity
-			pop_average[0] +=  pop_data.qualitySensitivity / total_coefs;
-			pop_average[1] +=  pop_data.priceSensitivity / total_coefs;
-			pop_average[2] +=  pop_data.marketingSensitivity / total_coefs;
+			pop_average[0] +=  pop_data.qualitySensitivity / total_coefs * pop_nb;
+			pop_average[1] +=  pop_data.priceSensitivity / total_coefs * pop_nb;
+			pop_average[2] +=  pop_data.marketingSensitivity / total_coefs * pop_nb;
 		}
-		pop_average[0] = pop_average[0] / game_data.mapDistricts[i].population.length * 100;
-		pop_average[1] = pop_average[1] / game_data.mapDistricts[i].population.length * 100;
-		pop_average[2] = pop_average[2] / game_data.mapDistricts[i].population.length * 100;
+		pop_average[0] = Math.round(pop_average[0] * 100);
+		pop_average[1] = Math.round(pop_average[1] * 100);
+		pop_average[2] = Math.round(pop_average[2] * 100);
 
 	    new Chart($("#dt" + index +"Canvas"), {
 	        type: 'doughnut',
