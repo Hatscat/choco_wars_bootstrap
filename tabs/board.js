@@ -21,7 +21,8 @@ function stats_return (res) {
 }
 
 function init (teamStats) {
-
+    teamStats = teamStats || [];
+    
     canvas.width = innerWidth * 0.8; 
     canvas.height = innerHeight * 0.7; 
 

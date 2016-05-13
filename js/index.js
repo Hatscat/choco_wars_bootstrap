@@ -20,8 +20,7 @@ function login_return (res) {
         alert(res.message);
     }
     else {
-        storage.data.token = res.message;
-        storage.save();
+        storage.save({"token": res.message});
         window.location.href = "tabs/strategy.html";
     }
 }

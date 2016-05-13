@@ -24,11 +24,16 @@ function init (teamsData) {
     turnoverCanvas.width = profitsCanvas.width = innerWidth * 0.4; 
     turnoverCanvas.height = profitsCanvas.height = innerHeight * 0.7; 
 
-    var team_names = [], turnovers = [], earnings = [];
-    for(var i = 0; i < teamsData.length; i++) {
-        team_names.push(teamsData[i].teamName);
-        turnovers.push(teamsData[i].results[teamsData[i].results.length-1].turnOver);
-        earnings.push(teamsData[i].results[teamsData[i].results.length-1].earnings);
+    if(teamsData) {
+        var team_names = [], turnovers = [], earnings = [];
+        for(var i = 0; i < teamsData.length; i++) {
+            team_names.push(teamsData[i].teamName);
+            turnovers.push(teamsData[i].results[teamsData[i].results.length-1].turnOver);
+            earnings.push(teamsData[i].results[teamsData[i].results.length-1].earnings);
+        }
+    }
+    else {
+        var team_names = ["ME"], turnovers = [1], earnings = [1];
     }
 
     var team_colors = getColors(team_names);

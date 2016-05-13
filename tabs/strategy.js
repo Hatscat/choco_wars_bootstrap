@@ -122,6 +122,9 @@ function submit_return (res) {
 		alert(res.message);
 		toggle_submit_lock(false);
 	}
+	else {
+		alert("Decision made! Wait for next round");
+	}
 }
 
 
