@@ -3,6 +3,7 @@
 $(document).ready(function () {
 	init_events();
 	get_game_data(init);
+	toggle_submit_lock(!storage.data.can_submit);
 });
 
 
@@ -15,9 +16,9 @@ function init () {
     storage.data.dt2_val = storage.data.dt2_val || 0;
     storage.data.dt3_val = storage.data.dt3_val || 0;
     storage.data.current_fin_val = storage.data.current_fin_val || game_data.initialFinances;
+    storage.data.next_fin_val = 0;
 
     window.total_cost = 0;
-    window.next_fin_val = 0;
 
     window.oldTime = 0;
     storage.data.current_round = storage.data.current_round || 0;
@@ -41,11 +42,10 @@ function init () {
 
     addEventListener("resize", on_resize, false);
 	$("#mapBt").on("click", on_map_button_click);
-	$("#strategySubmitBt").on("click", on_submit);
 
     on_resize();
     update_values();
-    time_pass(0);
+    //time_pass(0);
    	time_check();
 }
 
@@ -61,6 +61,23 @@ function time_check () {
 	window.setTimeout(time_check, 5000);
 }
 
+function get_latest_data () {
+    db_access("teamStats", "GET", "token=" + storage.data.token, stats_return);
+}
+
+function stats_return (res) {
+    res = JSON.parse(res);
+
+    if(res.statusCode != 200) {
+        alert(res.message);
+        return;
+    }
+
+    storage.data.current_fin_val = res.message.statistics ?  res.message.statistics[res.message.statistics.length-1].decisions.earnings : game_data.initialFinances;
+    update_values();
+}
+
+
 function time_return (res) {
 	res = JSON.parse(res);
 
@@ -68,6 +85,7 @@ function time_return (res) {
 		storage.data.time_left = res.message.timeLeft;
 		if(storage.data.current_round != res.message.round) {
 			storage.data.current_round = res.message.round;
+			get_latest_data();
 			toggle_submit_lock(false);
 		}
 	}
@@ -88,18 +106,13 @@ function on_resize () {
 	$("#promoSlider").css( { width: slider_w } );
 }
 
-function on_submit () {
-    var is_round_end = false;
-    location.href = is_round_end ? "./performance.html" : "./board.html";
-}
-
 function update_values () {
     storage.data.place_val = storage.data.dt1_val * game_data.mapDistricts[0].stallPrice + storage.data.dt2_val * game_data.mapDistricts[1].stallPrice + storage.data.dt3_val * game_data.mapDistricts[2].stallPrice; // todo
     total_cost = storage.data.prod_val + storage.data.promo_val + storage.data.place_val;
-    next_fin_val = storage.data.current_fin_val - total_cost;
+    storage.data.next_fin_val = storage.data.current_fin_val - total_cost;
     $("#placeValDom").text(storage.data.place_val);
     $("#finDetailsDom").text("" + storage.data.current_fin_val + " - " + total_cost + " =");
-    $("#nextFinValDom").text(next_fin_val);
+    $("#nextFinValDom").text(storage.data.next_fin_val);
 }
 
 function on_slide (var_name, evnt) {
@@ -136,7 +149,7 @@ function submit_return (res) {
 		toggle_submit_lock(false);
 	}
 	else {
-		alert("Decision made! Wait for next round");
+		window.location.href = "board.html";
 	}
 }
 

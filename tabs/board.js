@@ -32,7 +32,7 @@ function init (teamStats) {
         prod.push(teamStats[i].decisions.qualityBudget);
         prom.push(teamStats[i].decisions.marketingBudget);
         price.push(teamStats[i].decisions.price);
-        fric.push(teamStats[i].decisions.earnings);
+        fric.push(teamStats[i].decisions.earnings || storage.data.next_fin_val);
 
         var placeCost = 0;
         for(var j = 0; j < teamStats[i].decisions.place.length; j++) {
