@@ -41,6 +41,7 @@ function init () {
 
     addEventListener("resize", on_resize, false);
 	$("#mapBt").on("click", on_map_button_click);
+	$("#strategySubmitBt").on("click", on_submit);
 
     on_resize();
     update_values();
@@ -85,6 +86,11 @@ function on_resize () {
 	$("#prodSlider").css( { width: slider_w } );
 	$("#priceSlider").css( { width: slider_w } );
 	$("#promoSlider").css( { width: slider_w } );
+}
+
+function on_submit () {
+    var is_round_end = false;
+    location.href = is_round_end ? "./performance.html" : "./board.html";
 }
 
 function update_values () {
@@ -182,9 +188,9 @@ function init_map (districtsData) {
 
 		$("#dt" + index +"Input").slider({ id: "dt" + index + "Slider", min: 0, max: game_data.mapDistricts[i].maxStallNb, value: storage.data["dt" + index + "_val"], tooltip: 'always' })
 		$("#dt" + index +"Slider").css( { width: slider_w } );
-		$("#dt" + index +"Input").on("slide", on_slide.bind(null, "dt" + index + "_val"));
-		$("#dt" + index +"Input").on("tap", on_pointer_down.bind(null, "dt" + index + "_val"));
-		$("#dt" + index +"Input").on("click", on_pointer_down.bind(null, "dt" + index + "_val"));
+		$("#dt" + index +"Slider").on("slide", on_slide.bind(null, "dt" + index + "_val"));
+		$("#dt" + index +"Slider").on("tap", on_pointer_down.bind(null, "dt" + index + "_val"));
+		$("#dt" + index +"Slider").on("click", on_pointer_down.bind(null, "dt" + index + "_val"));
 
 
 		var pop_average = [0,0,0];
