@@ -29,6 +29,7 @@ $(document).ready(function () {
 
     addEventListener("resize", on_resize, false);
 	$("#mapBt").on("click", on_map_button_click);
+	$("#strategySubmitBt").on("click", on_submit);
 
     on_resize();
     update_values();
@@ -39,6 +40,11 @@ function on_resize () {
 	$("#prodSlider").css( { width: slider_w } );
 	$("#priceSlider").css( { width: slider_w } );
 	$("#promoSlider").css( { width: slider_w } );
+}
+
+function on_submit () {
+    var is_round_end = false;
+    location.href = is_round_end ? "./performance.html" : "./board.html";
 }
 
 function update_values () {
