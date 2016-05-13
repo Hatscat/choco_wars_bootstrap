@@ -81,17 +81,21 @@ function stats_return (res) {
 function time_return (res) {
 	res = JSON.parse(res);
 
-	if(res.statusCode == 200) {
-		storage.data.time_left = res.message.timeLeft;
-		if(storage.data.current_round != res.message.round) {
-			storage.data.current_round = res.message.round;
-			get_latest_data();
-			toggle_submit_lock(false);
-		}
-	}
-	else {
-		toggle_submit_lock(true);
-	}
+    if(res.statusCode == 200) {
+        storage.data.time_left = res.message.timeLeft;
+        if(storage.data.current_round != res.message.round) {
+            storage.data.current_round = res.message.round;
+            toggle_submit_lock(false);
+        }
+    }
+    else if(res.message == "Game over") {
+        window.location.href = "performances_history.html";
+    }
+    else {
+        toggle_submit_lock(true);
+    }
+
+	get_latest_data();
 }
 
 function toggle_submit_lock (bool) {
@@ -134,8 +138,10 @@ function submit_decision () {
 	}
 
 	for(var i=0; i<3; i++) {
-		var index = i+1
-		decisions.place.push({"mapDistrictIndex": i,"stallQuantity": storage.data["dt" + index + "_val"]});
+        var index = i+1
+        if(storage.data["dt" + index + "_val"] > 0) {
+	       decisions.place.push({"mapDistrictIndex": i,"stallQuantity": storage.data["dt" + index + "_val"]});
+        } 
 	}
 	
 	db_access("teamDecisions", "POST", "token=" + storage.data.token + "&decisions=" + JSON.stringify(decisions), submit_return)
