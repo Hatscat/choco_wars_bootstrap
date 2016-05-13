@@ -90,9 +90,9 @@ function init_map () {
 
         $(nm+"Input").slider({ id: "dt"+i+"Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
         $(nm+"Slider").css( { width: innerWidth * 0.33 } );
-        $(nm+"Input").on("slide", on_slide.bind(null, vn));
-        $(nm+"Input").on("tap", on_pointer_down.bind(null, vn));
-        $(nm+"Input").on("click", on_pointer_down.bind(null, vn));
+        $(nm+"Slider").on("slide", on_slide.bind(null, vn));
+        $(nm+"Slider").on("tap", on_pointer_down.bind(null, vn));
+        $(nm+"Slider").on("click", on_pointer_down.bind(null, vn));
 
         new Chart($(nm+"PopCanvas"), {
             type: 'doughnut',
