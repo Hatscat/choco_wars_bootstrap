@@ -272,7 +272,7 @@ function draw_map () {
     for (var d = 0; d < map_vx.length; ++d) {
         ctx.fillStyle = "#000";
         ctx.fillText(
-                ["Wall Street", "Bronx", "Manhattan"][d],
+                ["Wall Street", "Bronx", "Brooklyn"][d],
                 [0.45, 0.38, 0.7][d] * w,
                 [0.15, 0.66, 0.42][d] * h
         );
