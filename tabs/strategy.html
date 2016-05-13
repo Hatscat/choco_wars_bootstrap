@@ -61,7 +61,7 @@
                 Map
             </button>
         </div>
-        <div id="placeValDom" class="col-md-2">
+        <div id="placeValDom" class="col-md-2 number">
         </div>
     </div>
 
@@ -70,13 +70,13 @@
         <div class="col-md-3">
             <strong>Finances</strong>
         </div>
-        <div id="finDetailsDom" class="col-md-6 text-center">
+        <div id="finDetailsDom" class="col-md-6 text-center number">
         </div>
-        <div id="nextFinValDom" class="col-md-2">
+        <div id="nextFinValDom" class="col-md-2 number">
         </div>
     </div>
 
-    <br>
+    <!--<br>-->
     <button id="strategySubmitBt" class="btn btn-primary btn-block btn-lg">Submit</button>
 
 </div>
@@ -98,15 +98,42 @@
                 <div>
                     <canvas id="mapCanvas"></canvas>
                 </div>
+                <a name="dt1BM"></a>
                 <hr>
-
+                
                 <div>
-                    <a name="dt1BM"></a>
-                    <h4 class="text-center text-success">"Poor Souls" district</h4>
+                    <h4 class="text-center text-success">"Bronx" district</h4>
+                    <br>
 
-                    <canvas id="dt1Canvas"></canvas>
-                    <h5 class="text-center">Stall Price: <span id="dt1PriceDom">50</span></h5>
-                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <canvas id="dt1PopCanvas"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="dt1StallsCanvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <strong>Motivations</strong>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <strong>Teams Stalls</strong>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 text-center">
+                            <h5 class="text-center">Stall Price: <span id="dt1PriceDom">50</span></h5>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h5 class="text-center">Population: <span
+                                    id="dt1PopDom">500</span></h5>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br>
                     <div class="row">
                         <div class="col-md-3 text-center">
                             <strong>Stalls to rent</strong>
@@ -116,19 +143,47 @@
                         </div>
                     </div>
 
+                    <br>
                     <div class="row text-center">
                         <a class="btn btn-default btn-info" href="#mapBM">Back to Map</a>
                     </div>
                 </div>
+                <a name="dt2BM"></a>
                 <hr>
 
                 <div>
-                    <a name="dt2BM"></a>
-                    <h4 class="text-center text-primary">"Boosted Hive" district</h4>
+                    <h4 class="text-center text-primary">"Central Park" district</h4>
+                    <br>
 
-                    <canvas id="dt2Canvas"></canvas>
-                    <h5 class="text-center">Stall Price: <span id="dt2PriceDom">150</span></h5>
-                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <canvas id="dt2PopCanvas"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="dt2StallsCanvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <strong>Motivations</strong>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <strong>Teams Stalls</strong>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 text-center">
+                            <h5 class="text-center">Stall Price: <span id="dt2PriceDom">150</span></h5>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h5 class="text-center">Population: <span
+                                    id="dt2PopDom">500</span></h5>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br>
                     <div class="row">
                         <div class="col-md-3 text-center">
                             <strong>Stalls to rent</strong>
@@ -138,20 +193,47 @@
                         </div>
                     </div>
 
+                    <br>
                     <div class="row text-center">
                         <a class="btn btn-default btn-info" href="#mapBM">Back to Map</a>
                     </div>
                 </div>
+                <a name="dt3BM"></a>
                 <hr>
 
                 <div>
-                    <a name="dt3BM"></a>
-                    <h4 class="text-center text-danger">"Golden Tower" district</h4>
+                    <h4 class="text-center text-danger">"Manhattan" district</h4>
+                    <br>
 
-                    <canvas id="dt3Canvas"></canvas>
-                    <h5 class="text-center">Stall Price: <span
-                            id="dt3PriceDom">350</span></h5>
-                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <canvas id="dt3PopCanvas"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="dt3StallsCanvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <strong>Motivations</strong>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <strong>Teams Stalls</strong>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 text-center">
+                            <h5 class="text-center">Stall Price: <span id="dt3PriceDom">350</span></h5>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h5 class="text-center">Population: <span
+                                    id="dt3PopDom">500</span></h5>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br>
                     <div class="row">
                         <div class="col-md-3 text-center">
                             <strong>Stalls to rent</strong>
@@ -161,6 +243,7 @@
                         </div>
                     </div>
 
+                    <br>
                     <div class="row text-center">
                         <a class="btn btn-default btn-info" href="#mapBM">Back to Map</a>
                     </div>
@@ -183,12 +266,6 @@
 <script src="../js/storage.js"></script>
 
 <script src="./strategy.js"></script>
-<!--<script src="../js/config.js"></script>
-<script src="../js/events.js"></script>
-<script src="../js/handlers.js"></script>
-<script src="../js/update.js"></script>
-<script src="../js/draw.js"></script>
-<script src="../js/main.js"></script>-->
 <!--/SCRIPTS-->
 </body>
 </html>

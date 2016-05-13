@@ -17,9 +17,16 @@ $(document).ready(function () {
 	$("#priceInput").slider({ id: "priceSlider", min: 0, max: 100, value: price_val, tooltip: 'always' })
 	$("#promoInput").slider({ id: "promoSlider", min: 0, max: 1000, value: promo_val, tooltip: 'always' })
 
-	$("#prodInput").on("slide", on_slide.bind(null, "prod_val"));
-	$("#priceInput").on("slide", on_slide.bind(null, "price_val"));
-	$("#promoInput").on("slide", on_slide.bind(null, "promo_val"));
+	$("#prodSlider").on("slide", on_slide.bind(null, "prod_val"));
+	$("#prodSlider").on("tap", on_pointer_down.bind(null, "prod_val"));
+	$("#prodSlider").on("click", on_pointer_down.bind(null, "prod_val"));
+	$("#priceSlider").on("slide", on_slide.bind(null, "price_val"));
+	$("#priceSlider").on("tap", on_pointer_down.bind(null, "price_val"));
+	$("#priceSlider").on("click", on_pointer_down.bind(null, "price_val"));
+	$("#promoSlider").on("slide", on_slide.bind(null, "promo_val"));
+	$("#promoSlider").on("tap", on_pointer_down.bind(null, "promo_val"));
+	$("#promoSlider").on("click", on_pointer_down.bind(null, "promo_val"));
+
     addEventListener("resize", on_resize, false);
 	$("#mapBt").on("click", on_map_button_click);
 
@@ -48,6 +55,13 @@ function on_slide (var_name, evnt) {
     update_values();
 }
 
+function on_pointer_down (var_name, evnt) {
+    console.log("val", evnt, evnt.target.parentElement.innerText);
+    if (evnt.target.parentElement.innerText)
+        window[var_name] = +evnt.target.parentElement.innerText;
+    update_values();
+}
+
 function on_map_button_click () {
     init_map();
 }
@@ -66,36 +80,35 @@ function init_map () {
     // districts
 
     Chart.defaults.global.defaultFontSize = 20;
-    var dt_people_tastes_labels = ["product quality", "price", "promotion"];
     window.dt_people_tastes_colors = ["#e64", "#4e6", "#64e"];
-    var slider_w = innerWidth * 0.33;
 
-    // dt1
-	$("#dt1Input").slider({ id: "dt1Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
-	$("#dt1Slider").css( { width: slider_w } );
-	$("#dt1Input").on("slide", on_slide.bind(null, "dt1_val"));
-    new Chart(dt1Canvas, {
-        type: 'doughnut',
-        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, [16, 48, 36])
-    });
+    for (var i=1; i < 4; ++i) {
 
-    // dt2
-	$("#dt2Input").slider({ id: "dt2Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
-	$("#dt2Slider").css( { width: slider_w } );
-	$("#dt2Input").on("slide", on_slide.bind(null, "dt2_val"));
-    new Chart(dt2Canvas, {
-        type: 'doughnut',
-        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, [27, 29, 44])
-    });
+        var nm = "#dt"+i;
+        var vn = "dt"+i+"_val";
+        var team_names = ["AAA", "Millenium", "TMP", "RGBA", "Conspiracy"];
 
-    // dt3
-	$("#dt3Input").slider({ id: "dt3Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
-	$("#dt3Slider").css( { width: slider_w } );
-	$("#dt3Input").on("slide", on_slide.bind(null, "dt3_val"));
-    new Chart(dt3Canvas, {
-        type: 'doughnut',
-        data: new_chart_data(dt_people_tastes_labels, dt_people_tastes_colors, [53, 9, 38])
-    });
+        $(nm+"Input").slider({ id: "dt"+i+"Slider", min: 0, max: 10, value: prod_val, tooltip: 'always' })
+        $(nm+"Slider").css( { width: innerWidth * 0.33 } );
+        $(nm+"Input").on("slide", on_slide.bind(null, vn));
+        $(nm+"Input").on("tap", on_pointer_down.bind(null, vn));
+        $(nm+"Input").on("click", on_pointer_down.bind(null, vn));
+
+        new Chart($(nm+"PopCanvas"), {
+            type: 'doughnut',
+            data: new_chart_data(
+                ["product quality", "price", "promotion"],
+                dt_people_tastes_colors,
+                [Math.random(), Math.random(), Math.random()])
+        });
+        new Chart($(nm+"StallsCanvas"), {
+            type: 'pie',
+            data: new_chart_data(
+                team_names,
+                getColors(team_names),
+                [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()])
+        });
+    }
 
     draw_map();
 }
@@ -128,7 +141,7 @@ function draw_map () {
     for (var d = 0; d < map_vx.length; ++d) {
         ctx.fillStyle = "#000";
         ctx.fillText(
-                ["Golden Tower", "Poor Souls", "Boosted Hive"][d],
+                ["Wall Street", "Bronx", "Manhattan"][d],
                 [0.45, 0.38, 0.7][d] * w,
                 [0.15, 0.66, 0.42][d] * h
         );
@@ -163,7 +176,6 @@ function on_map_click (evnt) {
             return;
         }
     }
-
 }
 
 function get_map_vertex (w, h) {
@@ -217,3 +229,14 @@ function new_chart_data (labels, colors, data) {
         }],
     };
 }
+
+function getColors (strings) {
+
+    var colors = [];
+
+    for (var i = 0; i < strings.length; ++i) {
+        colors[i] = "#" + ((parseInt(strings[i], 36) ^ 0x888) & 0xeee).toString(16); 
+    }
+    return colors;
+}
+

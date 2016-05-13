@@ -31,8 +31,8 @@ function does_circles_collides (a, b) {
 	return dist_xy_sqr(a, b) < dr * dr;
 }
 
-function is_point_left_of_line_AB (p, A, B) {
-	return (B.x - A.x) * (A.y - p.y) - (A.y - B.y) * (p.x - A.x) > 0;
+function is_point_left_of_line_AB (p, a, b) {
+	return (b.x - a.x) * (a.y - p.y) - (a.y - b.y) * (p.x - a.x) > 0;
 }
 
 function is_point_inside_convex_shape (p, vx) {
@@ -43,12 +43,34 @@ function is_point_inside_convex_shape (p, vx) {
     return true;
 }
 
+function does_vec_collids (a, b, c, d) {
+    var dABx = b.x - a.x;
+    var dABy = b.y - a.y;
+    var dCDx = d.x - c.x;
+    var dCDy = d.y - c.y;
+    var denom = dABx * dCDy - dABy * dCDx;
+    if (!denom)
+        return -1;
+    var t = - (a.x * dCDy - c.x * dCDy - dCDx * a.y  + dCDx * c.y) / denom;
+    if (t < 0 || t >= 1)
+        return 0;
+    var u = - (-dABx * a.y + dABx * c.y + dABy * a.x - dABy * c.x) / denom;
+    if (u < 0 || u >= 1)
+        return 0;
+    return 1;
+}
+
 function is_point_inside_shape (p, vx) {
+    var n = 0;
+    var _p = { x: 10000 + Math.random() * 100, y: 10000 + Math.random() * 100 };
     for (var i = 0; i < vx.length; ++i) {
-        if (is_point_left_of_line_AB(p, vx[i], (i+1 < vx.length ? vx[i+1] : vx[0])))
-            return false;
+        var col = does_vec_collids(vx[i], (i+1 < vx.length ? vx[i+1] : vx[0]), _p, p);
+        if (col == -1)
+            return is_point_inside_shape(p, vx);
+        else if (col == 1)
+            ++n;
     }
-    return true;
+    return n % 2 == 1;
 }
 
 function swap (array, i0, i1) {
