@@ -73,7 +73,7 @@ function stats_return (res) {
         return;
     }
 
-    storage.data.current_fin_val = res.message.statistics ?  res.message.statistics[res.message.statistics.length-1].decisions.earnings : game_data.initialFinances;
+    storage.data.current_fin_val = res.message.statistics ?  res.message.statistics[res.message.statistics.length-1].decisions.capital : game_data.initialFinances;
     update_values();
 }
 
@@ -86,6 +86,9 @@ function time_return (res) {
         if(storage.data.current_round != res.message.round) {
             storage.data.current_round = res.message.round;
             toggle_submit_lock(false);
+            if(confirm("The round has ended. Do you want to go to the performances view ?")) {
+                window.location.href = "performances.html";
+            }
         }
     }
     else if(res.message == "Game over") {
