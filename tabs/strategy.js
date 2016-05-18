@@ -8,9 +8,9 @@ $(document).ready(function () {
 
 
 function init () {
-    storage.data.prod_val = storage.data.prod_val || 0;
-    storage.data.price_val = storage.data.price_val || 0;
-    storage.data.promo_val = storage.data.promo_val || 0;
+    storage.data.prod_val = storage.data.prod_val || 1;
+    storage.data.price_val = storage.data.price_val || 1;
+    storage.data.promo_val = storage.data.promo_val || 1;
     storage.data.place_val = storage.data.place_val || 0;
     storage.data.dt1_val = storage.data.dt1_val || 0;
     storage.data.dt2_val = storage.data.dt2_val || 0;
@@ -58,7 +58,7 @@ function time_pass (time) {
 
 function time_check () {
 	db_access("timeLeft", "GET", '', time_return);
-	window.setTimeout(time_check, 5000);
+	window.setTimeout(time_check, 1000);
 }
 
 function get_latest_data () {
@@ -84,9 +84,9 @@ function time_return (res) {
     if(res.statusCode == 200) {
         storage.data.time_left = res.message.timeLeft;
         if(storage.data.current_round != res.message.round) {
-            storage.data.current_round = res.message.round;
             toggle_submit_lock(false);
-            if(confirm("The round has ended. Do you want to go to the performances view ?")) {
+            storage.data.current_round = res.message.round;
+            if( res.message.round > 1 && confirm("The round has ended. Do you want to go to the performances view ?")) {
                 window.location.href = "performances.html";
             }
         }
@@ -156,6 +156,10 @@ function submit_return (res) {
 	if(res.statusCode != 200) {
 		alert(res.message);
 		toggle_submit_lock(false);
+
+        if(res.message == "You're not connected") {
+            window.location.href = "../index.html";
+        }
 	}
 	else {
 		window.location.href = "board.html";
