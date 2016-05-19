@@ -33,7 +33,7 @@ function time_return (res) {
         window.location.href = "performances_history.html";
     }
     else if (window["toggle_submit_lock"]) {
-        toggle_submit_lock(true);
+        //toggle_submit_lock(true);
     }
 
 	get_latest_data();
@@ -52,11 +52,12 @@ function get_latest_data () {
 }
 
 function getTeamsColors (array) {
+    console.log(array);
     var colors = [];
     for (var i = 0; i < array.length; ++i) {
-
         return colors[i] = ["#43892d", "#a3b83c", "#7c2d89", "#304192", "#852b2b", "#37aba8", "#582c89"][i];
     }
+    console.log(colors);
     return colors;
 }
 

@@ -4,6 +4,8 @@ $(document).ready(function () {
 	init_events();
 	get_game_data(init);
 	toggle_submit_lock(!storage.data.can_submit);
+
+		toggle_submit_lock(false);
 });
 
 
@@ -114,7 +116,7 @@ function submit_return (res) {
 
 	if(res.statusCode != 200) {
 		alert(res.message);
-		toggle_submit_lock(false);
+		//toggle_submit_lock(false);
 
         if(res.message == "You're not connected") {
             window.location.href = "../index.html";
@@ -127,7 +129,6 @@ function submit_return (res) {
 
 
 function on_pointer_down (var_name, evnt) {
-    console.log("val", evnt, evnt.target.parentElement.innerText);
     if (evnt.target.parentElement.innerText)
         window[var_name] = +evnt.target.parentElement.innerText;
     update_values();
