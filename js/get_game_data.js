@@ -21,7 +21,8 @@ function time_return (res) {
     if(res.statusCode == 200) {
         storage.data.time_left = res.message.timeLeft;
         if(storage.data.current_round != res.message.round) {
-            toggle_submit_lock(false);
+            if (window["toggle_submit_lock"])
+                toggle_submit_lock(false);
             storage.data.current_round = res.message.round;
             if( res.message.round > 1 && confirm("The round has ended. Do you want to go to the performances view ?")) {
                 window.location.href = "performances.html";
@@ -31,7 +32,7 @@ function time_return (res) {
     else if(res.message == "Game over") {
         window.location.href = "performances_history.html";
     }
-    else {
+    else if (window["toggle_submit_lock"]) {
         toggle_submit_lock(true);
     }
 
@@ -50,4 +51,12 @@ function get_latest_data () {
         db_access("teamStats", "GET", "token=" + storage.data.token, stats_return);
 }
 
+function getTeamsColors (array) {
+    var colors = [];
+    for (var i = 0; i < array.length; ++i) {
+
+        return colors[i] = ["#43892d", "#a3b83c", "#7c2d89", "#304192", "#852b2b", "#37aba8", "#582c89"][i];
+    }
+    return colors;
+}
 

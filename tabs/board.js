@@ -7,10 +7,10 @@ $(document).ready(function () {
 });
 
 function get_team_stats () {
-    db_access("teamStats", "GET", "token=" + storage.data.token, stats_return);
+    db_access("teamStats", "GET", "token=" + storage.data.token, stats_return_board);
 }
 
-function stats_return (res) {
+function stats_return_board (res) {
     res = JSON.parse(res);
 
     if(res.statusCode != 200) {

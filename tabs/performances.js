@@ -38,7 +38,7 @@ function init (teamsData) {
         var team_names = ["ME"], turnovers = [1], earnings = [1];
     }
 
-    var team_colors = getColors(team_names);
+    var team_colors = getTeamsColors(team_names);
 
     var turnoverData = {
         labels: team_names,

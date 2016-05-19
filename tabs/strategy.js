@@ -203,7 +203,7 @@ function init_map (districtsData) {
 	    
 	    new Chart($("#dt" + index +"StallsCanvas"), {
 	        type: 'pie',
-	        data: new_chart_data(districtsData.names[i], getColors(districtsData.names[i]), districtsData.stallsNb[i])
+	        data: new_chart_data(districtsData.names[i], getTeamsColors(districtsData.names[i]), districtsData.stallsNb[i])
 	    });
 	}
 
