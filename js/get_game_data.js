@@ -27,6 +27,9 @@ function time_return (res) {
             if( res.message.round > 1 && confirm("The round has ended. Do you want to go to the performances view ?")) {
                 window.location.href = "performances.html";
             }
+            else if (res.message.round == 1 && storage.data.current_round > res.message.round) {
+                window.location.href = "../index.html";
+            }
         }
     }
     else if(res.message == "Game over") {
@@ -55,7 +58,7 @@ function getTeamsColors (array) {
     console.log(array);
     var colors = [];
     for (var i = 0; i < array.length; ++i) {
-        return colors[i] = ["#43892d", "#a3b83c", "#7c2d89", "#304192", "#852b2b", "#37aba8", "#582c89"][i];
+        colors[i] = ["#43892d", "#7c2d89", "#304192", "#852b2b", "#37aba8", "#582c89", "#a3b83c"][i];
     }
     console.log(colors);
     return colors;
