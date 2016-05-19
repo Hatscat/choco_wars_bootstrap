@@ -27,9 +27,9 @@ function time_return (res) {
             if( res.message.round > 1 && confirm("The round has ended. Do you want to go to the performances view ?")) {
                 window.location.href = "performances.html";
             }
-            else if (res.message.round == 1 && storage.data.current_round > res.message.round) {
-                window.location.href = "../index.html";
-            }
+        }
+        else if (res.message.round == 1 && storage.data.current_round > res.message.round) {
+            window.location.href = "../index.html";
         }
     }
     else if(res.message == "Game over") {

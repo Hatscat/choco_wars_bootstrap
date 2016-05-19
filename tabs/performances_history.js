@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
     get_teams_data();
+   	time_check();
 });
 
 function get_teams_data () {
@@ -60,7 +61,7 @@ function init(data) {
         }
     }
 
-    var team_colors = getColors(team_names);
+    var team_colors = getTeamsColors(team_names);
     for (var i = 0; i < round_nb; ++i) {
 
         var turnoverData = {
