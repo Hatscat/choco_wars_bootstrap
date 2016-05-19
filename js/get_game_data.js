@@ -18,20 +18,19 @@ function time_check () {
 function time_return (res) {
 	res = JSON.parse(res);
 
-    console.log(res)
-    console.log(storage.data);
     if(res.statusCode == 200) {
         storage.data.time_left = res.message.timeLeft;
         if(storage.data.current_round != res.message.round) {
+            if (res.message.round == 1 && storage.data.current_round > res.message.round) {
+                window.location.href = "../index.html";
+                return;
+            }
             if (window["toggle_submit_lock"])
                 toggle_submit_lock(false);
             storage.data.current_round = res.message.round;
             if( res.message.round > 1 && confirm("The round has ended. Do you want to go to the performances view ?")) {
                 window.location.href = "performances.html";
             }
-        }
-        else if (res.message.round == 1 && storage.data.current_round > res.message.round) {
-            window.location.href = "../index.html";
         }
     }
     else if(res.message == "Game over") {
