@@ -18,6 +18,8 @@ function time_check () {
 function time_return (res) {
 	res = JSON.parse(res);
 
+    console.log(res)
+    console.log(storage.data);
     if(res.statusCode == 200) {
         storage.data.time_left = res.message.timeLeft;
         if(storage.data.current_round != res.message.round) {
