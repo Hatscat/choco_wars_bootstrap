@@ -3,6 +3,8 @@
 $(document).ready(function () {
     init_events();
     get_game_data(get_teams_data);
+
+   	time_check();
 });
 
 function get_teams_data () {

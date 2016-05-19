@@ -20,7 +20,6 @@ function init () {
 
     window.total_cost = 0;
 
-    window.oldTime = 0;
     storage.data.current_round = storage.data.current_round || 0;
     storage.data.time_left = storage.data.time_left || 0;
     storage.data.can_submit = storage.data.can_submit || false;
@@ -49,22 +48,6 @@ function init () {
    	time_check();
 }
 
-function time_pass (time) {
-	var delta = (time - oldTime) / 1000;
-	oldTime = time;
-	storage.data.time_left -= delta;
-	requestAnimationFrame(time_pass);
-}
-
-function time_check () {
-	db_access("timeLeft", "GET", '', time_return);
-	window.setTimeout(time_check, 1000);
-}
-
-function get_latest_data () {
-    db_access("teamStats", "GET", "token=" + storage.data.token, stats_return);
-}
-
 function stats_return (res) {
     res = JSON.parse(res);
 
@@ -75,30 +58,6 @@ function stats_return (res) {
 
     storage.data.current_fin_val = res.message.statistics ?  res.message.statistics[res.message.statistics.length-1].decisions.capital : game_data.initialFinances;
     update_values();
-}
-
-
-function time_return (res) {
-	res = JSON.parse(res);
-
-    if(res.statusCode == 200) {
-        storage.data.time_left = res.message.timeLeft;
-        if(storage.data.current_round != res.message.round) {
-            toggle_submit_lock(false);
-            storage.data.current_round = res.message.round;
-            if( res.message.round > 1 && confirm("The round has ended. Do you want to go to the performances view ?")) {
-                window.location.href = "performances.html";
-            }
-        }
-    }
-    else if(res.message == "Game over") {
-        window.location.href = "performances_history.html";
-    }
-    else {
-        toggle_submit_lock(true);
-    }
-
-	get_latest_data();
 }
 
 function toggle_submit_lock (bool) {
